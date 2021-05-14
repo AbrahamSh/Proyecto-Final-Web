@@ -63,7 +63,7 @@ $conn = mysqli_connect("localhost","root","root","tienda");
     mysqli_close($conn);
 
   $conn = mysqli_connect("localhost", "root", "root", "tienda");
-  $query = "SELECT id_historial,nombre,foto,fecha,h.cantidad as cantidad,total FROM historial h, productos p WHERE  h.producto_comprado = p.id_producto; ";
+  $query = "SELECT id_historial,nombre,foto,fecha,h.cantidad as cantidad,total FROM historial h, productos p WHERE  h.producto_comprado = p.id_producto  LIMIT $startFrom, $showRecordPerPage; ";
   $resultado = mysqli_query($conn, $query);
   if(mysqli_num_rows($resultado)==0 ){ echo "<h1>No hay compras realizadas aun...</h1>";}
 }
@@ -80,7 +80,7 @@ else if($_SESSION['correo']!=null){
     $startFrom = ($currentPage * $showRecordPerPage) - $showRecordPerPage;
       $conn = mysqli_connect("localhost", "root", "root", "tienda");
       $correo = $_SESSION['correo'];
-      $queryid = "select id_usuario from usuarios where correo='$correo';";
+      $queryid = "select id_usuario from usuarios where correo='$correo' ";
       $idresult = mysqli_query($conn, $queryid);
       while ($row = mysqli_fetch_assoc($idresult)) {
           $idusuario = $row['id_usuario'];
@@ -106,7 +106,7 @@ else if($_SESSION['correo']!=null){
     
     mysqli_close($conn);
     $conn = mysqli_connect("localhost", "root", "root", "tienda");
-    $query = "SELECT id_historial,nombre,foto,fecha,h.cantidad as cantidad,total FROM historial h, productos p WHERE h.id_usuario =$idusuario and h.producto_comprado = p.id_producto; ";
+    $query = "SELECT id_historial,nombre,foto,fecha,h.cantidad as cantidad,total FROM historial h, productos p WHERE h.id_usuario =$idusuario and h.producto_comprado = p.id_producto  LIMIT $startFrom, $showRecordPerPage; ";
     $resultado = mysqli_query($conn, $query);
 
 }
